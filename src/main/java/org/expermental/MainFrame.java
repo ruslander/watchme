@@ -1,5 +1,7 @@
 package org.expermental;
 
+import org.opencv.objdetect.CascadeClassifier;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import javax.swing.JFrame;
@@ -8,9 +10,18 @@ import javax.swing.border.EmptyBorder;
 
 public class MainFrame extends JFrame {
     private JPanel contentPane;
-    private CameraController cameraController = new CameraController();
+    private CameraController cameraController;
+
+    CascadeClassifier faceCascade = new CascadeClassifier();
 
     public MainFrame() {
+
+        //resources/lbpcascades/lbpcascade_frontalface.xml
+        //resources/haarcascades/haarcascade_frontalface_alt.xml
+        faceCascade.load("/Users/ruslanrusu/projects/watchme/src/main/resources/haarcascade_frontalface_alt.xml");
+
+        cameraController = new CameraController(faceCascade);
+
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(0, 0, 640, 360);
 
