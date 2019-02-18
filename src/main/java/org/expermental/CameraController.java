@@ -1,26 +1,29 @@
 package org.expermental;
 
-import org.opencv.core.Core;
 import org.opencv.core.Mat;
+import org.opencv.videoio.VideoCapture;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.awt.image.WritableRaster;
 
-public class Mat2Image {
+public class CameraController {
 
 
+    VideoCapture cap;
     Mat mat = new Mat();
-    BufferedImage img;
 
-    public Mat2Image() {
+    CameraController(){
+        cap = new VideoCapture();
+        cap.open(0);
     }
 
-    public Mat2Image(Mat mat) {
-        getSpace(mat);
+    BufferedImage getOneFrame() {
+        cap.read(mat);
+        return getImage(mat);
     }
 
-    public void getSpace(Mat mat) {
+    BufferedImage getImage(Mat mat){
         int type = 0;
         if (mat.channels() == 1) {
             type = BufferedImage.TYPE_BYTE_GRAY;
@@ -30,12 +33,9 @@ public class Mat2Image {
         this.mat = mat;
         int w = mat.cols();
         int h = mat.rows();
-        if (img == null || img.getWidth() != w || img.getHeight() != h || img.getType() != type)
-            img = new BufferedImage(w, h, type);
-    }
 
-    BufferedImage getImage(Mat mat){
-        getSpace(mat);
+        BufferedImage img = new BufferedImage(w, h, type);
+
         WritableRaster raster = img.getRaster();
         DataBufferByte dataBuffer = (DataBufferByte) raster.getDataBuffer();
         byte[] data = dataBuffer.getData();
