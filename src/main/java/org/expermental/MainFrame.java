@@ -23,7 +23,7 @@ public class MainFrame extends JFrame {
         cameraController = new CameraController(faceCascade);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(0, 0, 640, 360);
+        setBounds(0, 0, 1280, 720);
 
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(0, 0, 0, 0));
@@ -38,9 +38,9 @@ public class MainFrame extends JFrame {
         g = contentPane.getGraphics();
 
         BufferedImage originalFrame = cameraController.getOneFrame();
-        BufferedImage resizedFrame = resize(originalFrame, 640, 360);
+        //BufferedImage resizedFrame = resize(originalFrame, 640, 360);
 
-        g.drawImage(resizedFrame, 0, 0, this);
+        g.drawImage(originalFrame, 0, 0, this);
     }
 
     public static BufferedImage resize(BufferedImage img, int newW, int newH) {
